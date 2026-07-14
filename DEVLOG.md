@@ -22,3 +22,20 @@ Current environment:
 - numpy: 1.26.4
 - pytorch: 2.2.2
 - torchvision: 0.17.2
+
+
+## 2026/07/14
+
+### Progress
+I re-recorded ten golf swings using slow-motion video. From each recording, I captured one image for each swing phase: address, top, impact, and finish. I then stored the images in their corresponding class directories.
+
+This resulted in 40 images:
+- 10 address images
+- 10 backswing-top images
+- 10 impact images
+- 10 finish images
+
+### Natural Variation in the Dataset
+Because each swing was recorded separately, the extracted images are slightly different. The exact frame selected for each phase varies sightly between swings. The outdoor background also changes because of differences in sunlight, cloud movement, and the wind.
+
+These small variations may help prevent the CNN from memorizing one identical image or background.
