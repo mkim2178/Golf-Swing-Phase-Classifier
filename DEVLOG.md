@@ -39,3 +39,31 @@ This resulted in 40 images:
 Because each swing was recorded separately, the extracted images are slightly different. The exact frame selected for each phase varies sightly between swings. The outdoor background also changes because of differences in sunlight, cloud movement, and the wind.
 
 These small variations may help prevent the CNN from memorizing one identical image or background.
+
+
+## 2026/07/21
+
+### Progress
+I recorded ten additional golf swings in slow-motion at the same outdoor driving range I visited on 07/14. The swing-phase capture process remained the same, but I wore a different outfit, and the rainy weather naturally introduced variation in the lighting and background.
+
+I now have 20 recorded swings, with one imgae for each of following phases:
+- Address
+- Top
+- Impact
+- Finish
+
+This gives me a total of 80 images.
+
+### Implemented a Custom Dataset
+I implemented a `GolfSwingDataset` class that inherits from PyTorch's built-in `Dataset` class.
+- `__init__`: Initializes the dataset's root directory (`data_dir`), an optional transformation pipeline (`transform`), a dictionary that maps each swing-phase to a numeric label (`class_to_idx`), and a list of `(image path, class index)` tuples (`samples`). The current mapping is:
+    - Address: 0
+    - Top: 1
+    - Impact: 2
+    - Finish: 3
+- `__len__`: Returns the number of entries in `samples`, which represents the total number of images in the dataset.
+- `__getitem__`: Takes an index, retrieves the corresponding image path and label from `samples`, opens the image, converts it to RGB, and applies the transformation pipeline if one was provided. It then returns the image and the numeric label.
+
+
+### Removed `transform.py`
+I removed `transform.py` because it was only used as a temporary testing area for inspecting raw images and experimenting with resizing and tensor conversion. These transformations will now be defined outside the dataset class and applied dynamically inside `GolfSwingDataset.__getitem__`.
