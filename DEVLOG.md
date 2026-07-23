@@ -67,3 +67,19 @@ I implemented a `GolfSwingDataset` class that inherits from PyTorch's built-in `
 
 ### Removed `transform.py`
 I removed `transform.py` because it was only used as a temporary testing area for inspecting raw images and experimenting with resizing and tensor conversion. These transformations will now be defined outside the dataset class and applied dynamically inside `GolfSwingDataset.__getitem__`.
+
+
+## 2026/07/23
+
+### Progress
+I recorded the final ten golf swings on 2026/07/22. They were recorded at the same location, but the background was different because I recorded them at night, and the weather was slightly rainy. I now have all 30 golf swings, or 120 images, that will be used as the dataset for my model.
+
+### Implemented the Train/Validation/Test Splitting process and Image transformation pipeline
+I manually implemented the dataset splitting process without using built-in dataset splitting functions. I decided to use 72 images for training, 24 images for validaion, and 24 images for  testing. 
+
+The dataset is split by complete swing, meaning that the address, top, impact, and finish images from the same swing remain in the same subset. Each of the three recording settings contributes 6 swings to the training set, 2 swings to the validation set, and 2 swings to the test set. This keeps the subsets balanced across the different backgrounds and outfits while preventing data leakge between them.
+
+### Transformation Pipeline
+The image transformation pipeline was implemented in the same file as the splitting process. The pipeline is relatively simple because it only resizes each image and converts it into a PyTorch tensor.
+
+The actual training, validation, and test dataset objects, along with their corresponding DataLoaders, will be implemented next.
