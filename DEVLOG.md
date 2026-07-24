@@ -83,3 +83,27 @@ The dataset is split by complete swing, meaning that the address, top, impact, a
 The image transformation pipeline was implemented in the same file as the splitting process. The pipeline is relatively simple because it only resizes each image and converts it into a PyTorch tensor.
 
 The actual training, validation, and test dataset objects, along with their corresponding DataLoaders, will be implemented next.
+
+
+## 2026/07/24
+
+### Progress
+I modified the structure `GolfSwingDataset` to match the updated train/validation/test splitting process. Previously, the Dataset class received the root data directory, scanned each phase directory, and created the sample list internally.
+
+Now, the splitting process creates `train_samples`, `val_samples`, and `test_samples` before the Dataset objects are initialized. Each sample is stored as a tuple containing the image's relative path and its numeric swing-phase label: `(image_path, numeric label)`
+
+Since the sample lists already contain both the image path and label, `GolfSwingDataset` no longer needs to scan the raw dataset directories or maintain its own `class_to_idx` mapping. The class now only stores the provided samples, loads each image, applies the assigned transformation pipeline, and returns the transformed image with its label.
+
+### Defining Train/Val/Test datasets
+After completing the swing-level splitting process and defining the image transformation pipeline, I initialized the training, validation, and test Dataset objects.
+
+The size of each dataset is:
+- training: 72 images
+- validation: 24 images
+- test: 24 images
+
+The current transformation pipeline resizes each image to `256 x 128` and converts it into a PyTorch tensor.
+
+I also visually inspected the transformed training images using Matplotlib to confirm that the images were loaded correctly, resized to the expected dimensions, and matched their numeric labels.
+
+The DataLoaders will be implemented next.
