@@ -107,3 +107,41 @@ The current transformation pipeline resizes each image to `256 x 128` and conver
 I also visually inspected the transformed training images using Matplotlib to confirm that the images were loaded correctly, resized to the expected dimensions, and matched their numeric labels.
 
 The DataLoaders will be implemented next.
+
+
+## 2026/07/27
+
+### Progress
+I finished implementing functions that create and return the Dataset and DataLoader objects. I added wrapper functions to make the data-preparation code cleaner, more modular, and easier to read.
+
+The `create_datasets()` function creates and returns the training, validation, and test Dataset objects. The `create_dataloaders()` function then uses those Dataset objects to create the corresponding DataLoaders for model training, validation, and testing.
+
+I am currently using a fixed random seed to make the train, validation and test splits reproducible. I may revise how the seed is handled later.
+
+### Implementing the CNN Architecture
+I completed the initial convolutional neural network architecture by defining a reusable `ConvBlock` class.
+
+Each convolutional block contains:
+- a `Conv2d` layer
+- a ReLU activation function
+- a 2D max-pooling layer
+
+The main CNN uses three convolutional blocks with the following channel progression:
+- 3 input channels -> 16 output channels
+- 16 input channels -> 32 output channels
+- 32 input channels -> 64 output channels
+
+After the convolutional blocks, the model applies adaptive average pooling to produce feature maps with a fixed spatial size of 4 x 4. The output is then flattened and passed into a linear layer that produces four raw class scores, one for each golf swing phase.
+
+### Implemented the Training Process
+In `train.py`, I initialized:
+- the number of epochs
+- the training device
+- the training, validation, and test DataLoaders
+- the CNN model
+- the cross-entropy loss function
+- the Adam optimizer
+
+I also implemented the training loop. For each epoch, the model processes all training batches, performs forward and backward propagation, and updates its parameters using the optimizer.
+
+The training loop also calculates and reports the average training loss and training accuracy for each epoch.
