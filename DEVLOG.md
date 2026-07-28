@@ -145,3 +145,18 @@ In `train.py`, I initialized:
 I also implemented the training loop. For each epoch, the model processes all training batches, performs forward and backward propagation, and updates its parameters using the optimizer.
 
 The training loop also calculates and reports the average training loss and training accuracy for each epoch.
+
+
+## 2026/07/28
+
+### Progress
+I restructured the codebase to improve readability and organization, including adding wrapper functions and defining fixed configuration values as constants.
+
+I also revised the code comments by removing unnecessary line-by-line explanations. Many comments were redundant because the corresponding code was already straightforward and self-explanatory.
+
+In addition, I implemented the `train_one_epoch` and `validate` functions, which are executed during each epoch. Both functions return the model's average loss and accuracy for their respective datasets.
+
+### Next Steps
+The current model is ready for evaluation on the test dataset. BEfore concluding the project, I will decide whether additional experimentation is necessary.
+
+Potential improvements include testing various hyperparameters, expanding the dataset, modifying the CNN architecture, and adding data augmentation. If further experimentation is not justified, I will evaluate the current model on the untouched test set, document the results and limitations, and conclude the project.
