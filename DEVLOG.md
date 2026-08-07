@@ -160,3 +160,58 @@ In addition, I implemented the `train_one_epoch` and `validate` functions, which
 The current model is ready for evaluation on the test dataset. BEfore concluding the project, I will decide whether additional experimentation is necessary.
 
 Potential improvements include testing various hyperparameters, expanding the dataset, modifying the CNN architecture, and adding data augmentation. If further experimentation is not justified, I will evaluate the current model on the untouched test set, document the results and limitations, and conclude the project.
+
+
+## 2026/08/06 ~ 2026/08/07
+
+### Progress
+I edited several comments to improve the readability and clarity of the code explanations.
+
+I also added a `main()` function to both the training and testing scripts to separate function definitions from the actual training/testing workflow and prevent the workflow from running accidentally when the modules are imported.
+
+### Saving Best Models
+The project can now save the best model for each training random seed in the `models` directory. This allows models trained with different random seeds to be stored and evaluated independently.
+
+### Implemented the Testing Proccess
+In `test.py`, the code initializes the model, test DataLoader, and loss function, then loads the saved model parameters corresponding to a specified random seed that already exists in the `models` directory.
+
+The testing process outputs the final test loss and test accuracy. It also visualizes the model's correct and incorrect predictions.
+
+### Evaluating Models with Different Random Seeds
+The random seed used for the swing-level train/validation/test split is fixed at `42`, ensuring that evey model is trained, validated, and tested using the same dataset split.
+
+However, the random seed used during model training can be modified. Changing this seed affects factors such as model weight initialization, training-data shuffling, and other PyTorch randomness.
+
+The initial goal of this project was to create a single model with strong performance for classifying golf swing phases. However, because the dataset contains only 120 images, the test set is too small to reliably represent the model's general performance on unseen data.
+
+Therefore, instead of relying on the performance of a single training run, I trained the same model using multiple random seeds while keeping the dataset split fixed. This demonstrates how the model's performance can vary due to randomness during training.
+
+The test results for random seeds `9`, `42`, `123`, and `990099` are:
+- `RANDOM_SEED = 9`:
+    * Test Loss: 0.3236
+    * Test Accuracy: 0.8333
+- `RANDOM_SEED = 42`:
+    * Test Loss: 0.2258
+    * Test Accuracy: 1.0000
+- `RANDOM_SEED = 123`:
+    * Test Loss: 0.3426
+    * Test Accuracy: 0.9167
+- `RANDOM_SEED = 990099`:
+    * Test Loss: 0.3086
+    * Test Accuracy: 1.0000
+
+These results show that even when the model architecture, hyperparameters, and dataset split remain unchanged, the final test performance can vary depending on the randomness involved during training.
+
+
+## Conclusion
+The project has been successfully completed by implementing an end-to-end CNN pipeline for classifying four golf swing phases: address, top, impact, and finish.
+
+The dataset was created entirely by myself by recording my own golf swings. However, the dataset is relatively small and has limited variation because it contains only 120 images, uses a fixed side-view camera angle, includes only a 7-iron, and contains images of the same person. The dataset could be improved by including additional swing phases such as take-away, mid-downswing, and follow-through; using different golf clubs such as drivers, fairway woods, and wedges; recording swings in more diverse environments such as golf courses, outdoor practice areas, or other backgrounds; and collecting golf swings from multiple people.
+
+The neural network architecture could also be improved by modifying the CNN and `ConvBlock` structures that I created. I could have tested multiple network designs to improve model performance, but the main focus of this project was understanding the fundamental structure and training process of a convolutional neural network. In future work, pretrained computer-vision architectures such as ResNet or EfficientNet could also be used through transfer learning instead of building the entire neural network from scratch.
+
+One difficulty I encountered was the initial train/validation/test splitting strategy. I originally split the dataset by individual images, which could allow images from the same golf swing to appear in different subsets and potentially cause data leakage. To prevent this, I changed the splitting process so that each complete golf swing is assigned to only one of the training, validation, or test subsets.
+
+Another issue was that the convolutional layers initially produced a large number of features before the final linear layer, which increased the computational cost of training. To reduce the feature size, I added adaptive average pooling before flattening the output and passing it into the final linear layer.
+
+Finally, I evaluated models trained with multiple random seeds while keeping the dataset split fixed. The test results varied across the different seeds, demonstrating that model performance can be affected by weight initialization, training-data shuffling, and other sources of randomness during training. Because the dataset and test set are relatively small, the reported test accuracy should therefore not be interpreted as a reliable estimate of performance on completely new golf swings.
