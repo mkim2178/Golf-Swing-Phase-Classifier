@@ -1,6 +1,7 @@
 from PIL import Image
 from torch.utils.data import Dataset
 
+
 class GolfSwingDataset(Dataset):
 
     def __init__(self, samples, transform=None):
@@ -19,8 +20,8 @@ class GolfSwingDataset(Dataset):
     
     def __getitem__(self, idx):
         """
-        retrieve idx-th image's path and label from the `samples` list, convert it into RGB image, and apply the image transformation if it's assigned
-        return the image and the numeric label of the swing-phase
+        - load the image path & the numeric label at the given index
+        - image is converted to RGB and transformed if a transformation pipeline if provided
         """
         img_path, label = self.samples[idx]
         with Image.open(img_path) as img:
@@ -28,4 +29,5 @@ class GolfSwingDataset(Dataset):
 
             if self.transform is not None:
                 img = self.transform(img)
+                
         return img, label
