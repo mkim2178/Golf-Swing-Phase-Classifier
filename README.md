@@ -1,4 +1,4 @@
-# Golf-Swing-Phase-Classifier
+# Golf-Swing-Phase-Classifier (SHOULD TEST ON CUDA THEN DONE)
 
 ## Project Overview
 
@@ -13,6 +13,8 @@ Rather than relying on a pretrained architecture, the model was designed manuall
 The dataset used in this project is available on Kaggle: [Golf Swing Phase Image Dataset](https://www.kaggle.com/datasets/mkim2178/golf-swing-phase-image-dataset)
 
 Download the dataset and place the `data` directory in the project root.
+
+After downloading and extracting the dataset, make sure the `data` directory is placed directly in the project root.
 
 Here's the expected directory structure:
 ```text
@@ -30,9 +32,17 @@ data/
 This project was developed with Python 3.11.
 
 It is recommended to create and activate a virtual environment before installing the dependencies:
+
+For macOS/Linux:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+```
+
+For Windows (activating venv):
+```bash
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
 Install the required Python packages:
@@ -41,6 +51,11 @@ pip install -r requirements.txt
 ```
 
 ### Train the Model
+Before executing `train.py`, create a `models` directory in the project root if it does not already exist:
+```bash
+mkdir models
+```
+
 Run the training script:
 ```bash
 python src/train.py
@@ -51,7 +66,11 @@ The best model checkpoint for the selected random seed will be saved in the `mod
 To train a model with a different initialization, modify `RANDOM_SEED` in `train.py`.
 
 ### Test a Trained Model
-In `test.py`, set `MODEL_SEED` to the seed number of an existing trained model in the `models` directory, then run:
+In `test.py`, set `MODEL_SEED` to the seed number of an existing trained model in the `models` directory.
+
+Make sure the corresponding checkpoint file already exists before running the test script.
+
+Run the testing script:
 ```bash
 python src/test.py
 ```
