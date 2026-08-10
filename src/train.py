@@ -13,7 +13,7 @@ EPOCHS = 20
 BATCH_SIZE = 8
 LEARNING_RATE = 0.001
 
-# train.py must be run from the src directory
+# define the project and model paths relative to this file
 SRC_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = SRC_DIR.parent
 MODEL_PATH = PROJECT_DIR / "models" / f"best_model_seed_{RANDOM_SEED}.pth"
